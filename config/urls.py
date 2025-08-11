@@ -24,16 +24,7 @@ urlpatterns = [
     path("api/payments/", include("users.urls")),
     path("api/", include(router.urls)),
     path("api/lessons/", LessonListCreateAPIView.as_view(), name="lesson_list"),
-    path(
-        "api/lessons/<int:pk>/", LessonRetrieveAPIView.as_view(), name="lesson_detail"
-    ),
-    path(
-        "api/lessons/<int:pk>/update/",
-        LessonUpdateAPIView.as_view(),
-        name="lesson_update",
-    ),
-    path(
-        "api/lessons/<int:pk>/delete/",
-        LessonDestroyAPIView.as_view(),
-        name="lesson_delete",
+    path("api/lessons/<int:pk>/", LessonRetrieveAPIView.as_view(), name="lesson_detail"),
+    path("api/lessons/<int:pk>/update/", LessonUpdateAPIView.as_view(), name="lesson_update",),
+    path("api/lessons/<int:pk>/delete/", LessonDestroyAPIView.as_view(), name="lesson_delete",
     ),] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
