@@ -25,6 +25,13 @@ class Course(models.Model):
         help_text="Добавьте картинку",
     )
 
+    owner = models.ForeignKey(
+        "users.User",
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="courses"
+    )
+
     class Meta:
         verbose_name = "Курс"
         verbose_name_plural = "Курсы"
@@ -68,6 +75,13 @@ class Lesson(models.Model):
         related_name="lessons",
         verbose_name="Курс",
         help_text="Выберите курс",
+    )
+
+    owner = models.ForeignKey(
+        "users.User",
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="lessons"
     )
 
 
