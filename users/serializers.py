@@ -3,22 +3,22 @@ from materials.models import Course, Lesson
 from .models import Payment
 
 
-class SimpleCourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course
-        fields = ["id", "name"]
-
-
-
-class SimpleLessonSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Lesson
-        fields = ["id", "name"]
-
-
 class PaymentSerializer(serializers.ModelSerializer):
-    paid_course = SimpleCourseSerializer(read_only=True)
-    paid_lesson = SimpleLessonSerializer(read_only=True)
+    paid_course = serializers.PrimaryKeyRelatedField(
+        queryset=Course.objects.all(),
+        required=False,
+        allow_null=True
+    )
+    paid_lesson = serializers.PrimaryKeyRelatedField(
+        queryset=Lesson.objects.all(),
+        required=False,
+        allow_null=True
+    )
+
+    class Meta:
+        model = Payment
+        fields = ['id', 'user', 'paid_course', 'paid_lesson', 'amount', 'payment_date']
+        ordering = ["payment_date"]
 
     def validate(self, data):
         if not data.get("paid_course") and not data.get("paid_lesson"):
@@ -28,8 +28,3 @@ class PaymentSerializer(serializers.ModelSerializer):
                 "Можно указать только курс или только урок"
             )
         return data
-
-    class Meta:
-        model = Payment
-        fields = ['id', 'user', 'paid_course', 'paid_lesson', 'amount', 'payment_date']
-        ordering = ["payment_date"]
