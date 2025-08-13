@@ -17,7 +17,7 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = ['id', 'user', 'paid_course', 'paid_lesson', 'amount', 'payment_date']
+        fields = ['id', 'user', 'paid_course', 'paid_lesson', 'amount', 'payment_date', 'payment_method']
         ordering = ["payment_date"]
 
     def validate(self, data):
