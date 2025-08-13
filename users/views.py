@@ -17,10 +17,13 @@ class PaymentViewSet(viewsets.ModelViewSet):
         "amount": ["gte", "lte", "exact"],
     }
     ordering_fields = ["payment_date", "amount"]
-    ordering = ["payment_date"]  # Сортировка по умолчанию
+    ordering = ["payment_date"]
 
     def get_queryset(self):
         queryset = super().get_queryset()
         if not self.request.user.is_staff:
             queryset = queryset.filter(user=self.request.user)
         return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
