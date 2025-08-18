@@ -6,7 +6,7 @@ class LessonSerializer(serializers.ModelSerializer):
     """Сериализатор для списка уроков"""
     class Meta:
         model = Lesson
-        fields = ['id', 'name', 'description', 'video_url', 'course']
+        fields = ['id', 'name', 'description', 'video_url', 'course', 'owner']
 
 
 class LessonDetailSerializer(serializers.ModelSerializer):

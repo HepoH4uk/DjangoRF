@@ -1,6 +1,8 @@
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
+
 from materials.models import Course, Lesson
-from .models import Payment
+from .models import Payment, User
 
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -28,3 +30,8 @@ class PaymentSerializer(serializers.ModelSerializer):
                 "Можно указать только курс или только урок"
             )
         return data
+
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
