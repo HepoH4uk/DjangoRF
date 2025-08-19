@@ -5,6 +5,7 @@ from materials.models import Course, Lesson
 
 
 class User(AbstractUser):
+    username = None
 
     email = models.EmailField(
         unique=True,
@@ -37,7 +38,7 @@ class User(AbstractUser):
     )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = [ "username",]
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = "Пользователь"
