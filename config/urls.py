@@ -13,6 +13,25 @@ from materials.views import (
 )
 from users.views import PaymentViewSet
 
+from django.urls import re_path
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Snippets API",
+      default_version='v1',
+      description="Test description",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
 router = DefaultRouter()
 router.register(r"courses", CourseViewSet)
 router.register(r"users", PaymentViewSet)
@@ -22,10 +41,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include('materials.urls', namespace='materials')),
     path("users/", include("users.urls", namespace='users')),
-    path("api/payments/", include("users.urls")),
-    path("api/", include(router.urls)),
-    path("api/lessons/", LessonListCreateAPIView.as_view(), name="lesson_list"),
-    path("api/lessons/<int:pk>/", LessonRetrieveAPIView.as_view(), name="lesson_detail"),
-    path("api/lessons/<int:pk>/update/", LessonUpdateAPIView.as_view(), name="lesson_update",),
-    path("api/lessons/<int:pk>/delete/", LessonDestroyAPIView.as_view(), name="lesson_delete",
-    ),] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("payments/", include("users.urls")),
+    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
