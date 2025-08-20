@@ -22,14 +22,14 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'paid_course', 'paid_lesson', 'amount', 'payment_date', 'payment_method']
         ordering = ["payment_date"]
 
-    def validate(self, data):
-        if not data.get("paid_course") and not data.get("paid_lesson"):
-            raise serializers.ValidationError("Должен быть указан либо курс, либо урок")
-        if data.get("paid_course") and data.get("paid_lesson"):
-            raise serializers.ValidationError(
-                "Можно указать только курс или только урок"
-            )
-        return data
+    # def validate(self, data):
+    #     if not data.get("paid_course") and not data.get("paid_lesson"):
+    #         raise serializers.ValidationError("Должен быть указан либо курс, либо урок")
+    #     if data.get("paid_course") and data.get("paid_lesson"):
+    #         raise serializers.ValidationError(
+    #             "Можно указать только курс или только урок"
+    #         )
+    #     return data
 
 class UserSerializer(ModelSerializer):
     class Meta:
