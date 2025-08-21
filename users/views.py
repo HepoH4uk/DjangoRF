@@ -51,10 +51,9 @@ class PaymentCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         course = Course.objects.get(id=self.request.data.get('course'))
-        description = Course.objects.get(description=self.request.data.get('description'))
         payment = serializer.save(user=self.request.user)
         amount = payment.amount
-        product = create_stripe_product(course,description)
+        product = create_stripe_product(course)
         price = create_stripe_price(amount, product)
         session_id, payment_link = create_stripe_session(price)
         payment.session_id = session_id

@@ -6,13 +6,13 @@ stripe.api_key = STRIPE_SECRET_KEY
 
 
 
-def create_stripe_price(amount):
+def create_stripe_price(amount, product):
     """Создание цены в страйпе"""
 
     return stripe.Price.create(
         currency="rub",
         unit_amount=amount * 100,
-        product_data={"name": "Payment"}
+        product_data=product.name
 
     )
 
@@ -27,12 +27,9 @@ def create_stripe_session(price):
     return session.get("id"), session.get("url")
 
 
-def create_stripe_product(name, description):
+def create_stripe_product(product):
     """Создание продукта в страйпе"""
 
-    product = stripe.Product.create(
-        name=name,
-        description=description,
-        metadata={"service": "materials"},
+    return stripe.Product.create(
+        name=product.name
     )
-    return product.id
