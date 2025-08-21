@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 
 from materials.models import Course
 from .models import Payment, User
-from .serializers import PaymentSerializer, UserSerializer
+from .serializers import PaymentSerializer, UserSerializer, PaySerializer
 from rest_framework.generics import CreateAPIView
 
 from .services import create_stripe_product, create_stripe_price, create_stripe_session
@@ -45,8 +45,9 @@ class UserCreateAPIView(CreateAPIView):
         user.set_password(user.password)
         user.save()
 
+
 class PaymentCreateAPIView(CreateAPIView):
-    serializer_class = PaymentSerializer
+    serializer_class = PaySerializer
     queryset = User.objects.all()
 
     def perform_create(self, serializer):
