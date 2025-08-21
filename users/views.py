@@ -50,8 +50,8 @@ class PaymentCreateAPIView(CreateAPIView):
     queryset = User.objects.all()
 
     def perform_create(self, serializer):
-        course = Course.objects.get(pk=self.request.data.get('course'))
-        description = Course.objects.get(self.request.data.get('description'))
+        course = Course.objects.get(id=self.request.data.get('course'))
+        description = Course.objects.get(description=self.request.data.get('description'))
         payment = serializer.save(user=self.request.user)
         amount = payment.amount
         product = create_stripe_product(course,description)
