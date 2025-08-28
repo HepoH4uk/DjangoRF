@@ -31,6 +31,10 @@ class Course(models.Model):
         null=True,
         related_name="courses"
     )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Дата обновления"
+    )
 
     class Meta:
         verbose_name = "Курс"
@@ -82,6 +86,10 @@ class Lesson(models.Model):
         on_delete=models.CASCADE,
         null=True,
         related_name="lessons"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Дата обновления"
     )
 
 

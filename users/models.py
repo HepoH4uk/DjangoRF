@@ -89,6 +89,20 @@ class Payment(models.Model):
         verbose_name="Способ оплаты"
     )
 
+    session_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="ID сессии",
+        help_text="Укажите ID сессии",
+    )
+
+    link = models.URLField(
+        max_length=400,
+        blank=True,
+        null=True)
+
+
     class Meta:
         verbose_name = "Платеж"
         verbose_name_plural = "Платежи"
