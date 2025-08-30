@@ -19,11 +19,11 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     env:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 6464199
-      POSTGRES_HOST: db
-      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${{ env.POSTGRES_DB }}
+      POSTGRES_USER: ${{ env.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+      POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+      POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
