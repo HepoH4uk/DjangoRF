@@ -3,9 +3,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.permissions import AllowAny
 
+from materials.models import Course
 from .models import Payment, User
-from .serializers import PaymentSerializer, UserSerializer
+from .serializers import PaymentSerializer, UserSerializer, PaySerializer
 from rest_framework.generics import CreateAPIView
+
+from .services import create_stripe_product, create_stripe_price, create_stripe_session
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
@@ -41,3 +44,19 @@ class UserCreateAPIView(CreateAPIView):
         user = serializer.save(is_active=True)
         user.set_password(user.password)
         user.save()
+
+
+class PaymentCreateAPIView(CreateAPIView):
+    serializer_class = PaySerializer
+    queryset = User.objects.all()
+
+    def perform_create(self, serializer):
+        course = Course.objects.get(id=self.request.data.get('course'))
+        payment = serializer.save(user=self.request.user)
+        amount = payment.amount
+        product = create_stripe_product(course)
+        price = create_stripe_price(amount, product)
+        session_id, payment_link = create_stripe_session(price)
+        payment.session_id = session_id
+        payment.link = payment_link
+        payment.save()

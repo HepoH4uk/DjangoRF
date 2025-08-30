@@ -10,6 +10,7 @@ from users.permissions import IsModer, IsOwner
 from .models import Course, Lesson, Subscription
 from .paginations import LessonPagination, CoursePagination
 from .serializers import CourseSerializer, LessonSerializer
+from materials.tasks import send_course_update_notification, send_lesson_update_notification
 
 
 class CourseViewSet(ModelViewSet):
@@ -20,6 +21,10 @@ class CourseViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        send_course_update_notification.delay(instance.id)
 
     def get_permissions(self):
         if self.action in ["create"]:
@@ -37,6 +42,10 @@ class LessonViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        send_lesson_update_notification.delay(instance.id)
 
     def get_permissions(self):
         if self.action in ["create"]:
