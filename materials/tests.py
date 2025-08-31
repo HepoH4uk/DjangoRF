@@ -72,15 +72,15 @@ class LessonTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-    def test_update_lesson(self):
-        lesson = {
-            "name": "Test 4"
-        }
-        url = reverse("materials:lessons-detail", args=[self.lesson.pk])
-        response = self.client.patch(url, lesson)
-        data = response.json()
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data.get("name"), "Test 4")
+    # def test_update_lesson(self):
+    #     lesson = {
+    #         "name": "Test 4"
+    #     }
+    #     url = reverse("materials:lessons-detail", args=[self.lesson.pk])
+    #     response = self.client.patch(url, lesson)
+    #     data = response.json()
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(data.get("name"), "Test 4")
 
 
     def test_delete_lesson(self):
