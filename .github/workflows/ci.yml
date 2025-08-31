@@ -71,8 +71,8 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/DjangoRF:${{ github.sha }}
-          docker stop DjangoRF || true
-          docker rm DjangoRF || true
-          docker run -d --name DjangoRF --env-file .env -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/DjangoRF:${{ github.sha }}
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/django_rf:${{ github.sha }}
+          docker stop django_rf || true
+          docker rm django_rf || true
+          docker run -d --name django_rf --env-file .env -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/django_rf:${{ github.sha }}
           EOF
