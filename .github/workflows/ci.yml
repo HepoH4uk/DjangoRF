@@ -70,9 +70,9 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh -tt -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/django_rf:${{ github.sha }}
-          docker stop django_rf || true
-          docker rm django_rf || true
-          docker run -d --name django_rf --env-file .env -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/django_rf:${{ github.sha }}
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/django_rf:${{ github.sha }}
+          sudo docker stop django_rf || true
+          sudo docker rm django_rf || true
+          sudo docker run -d --name django_rf --env-file .env -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/django_rf:${{ github.sha }}
           EOF
