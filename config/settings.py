@@ -175,3 +175,5 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': timedelta(days=1),
     },
 }
+
+ALLOWED_HOSTS = ['89.169.147.221']
